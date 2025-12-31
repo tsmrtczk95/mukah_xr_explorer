@@ -1,72 +1,169 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>&lt;model-viewer&gt; template</title>
+    <title>Mukah XR Explorer</title>
     <meta charset="utf-8">
     <meta name="description" content="&lt;model-viewer&gt; template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="../styles.css" rel="stylesheet"/>
   </head>
   <body>
-    <!-- <model-viewer> HTML element -->
-    <model-viewer src="../models/jerunei_sgmisan.glb"
-      ar ar-modes="webxr scene-viewer quick-look"
-      camera-controls tone-mapping="neutral"
-      poster="../thumbnails/jerunei_sgmisan.png"
-      shadow-intensity="1"
-      camera-orbit="441.1deg 70.76deg 34.05m"
-      field-of-view="30deg"
-      autoplay auto-rotate>
-      <!-- Hotspots -->
-      <button class="Hotspot"
-        slot="hotspot-1"
-        data-position="-1.647m 0.969m -2.018m"
-        data-normal="0m 1.000m -4.768e-7m" 
-        data-visibility-attribute="visible">
-        <div class="HotspotAnnotation">Base</div></button>
-      
-      <button class="Hotspot"
-        slot="hotspot-2"
-        data-position="-4.045m 4.122m -0.085m"
-        data-normal="-1.000m -1.115e-24m 0m"
-        data-visibility-attribute="visible">
-        <div class="HotspotAnnotation">Metal Plaque</div></button>
-      
-      <button class="Hotspot" 
-        slot="hotspot-3" 
-        data-position="-0.997m 9.188m 0.0314m"
-        data-normal="-0.995m -9.743e-8m 0.098m"
-        data-visibility-attribute="visible">
-        <div class="HotspotAnnotation">Body Replacement Chamber</div></button>
-      
-      <button class="Hotspot" 
-        slot="hotspot-4" 
-        data-position="-0.997m 6.083m 0.034m"
-        data-normal="-0.995m 4.674e-8m 0.098m"
-        data-visibility-attribute="visible">
-        <div class="HotspotAnnotation">Carved Cavity</div></button>
-      
-      <button class="Hotspot" 
-        slot="hotspot-5" 
-        data-position="-0.368m 12.494m -0.415m" 
-        data-normal="-0.632m -0.083m -0.770m" 
-        data-visibility-attribute="visible">
-        <div class="HotspotAnnotation">Symbolic Iron Wood Jar for King &amp; Nobles</div></button>
-      
-      <div class="progress-bar hide" slot="progress-bar">
-        <div class="update-bar"></div>
+    <!-- Header -->
+    <header>
+      <div class="header-container">
+        <div class="logo-title">
+          <img src="../images/logo.png" alt="Logo" class="logo" id="logo">
+          <h1 class="title" id="title">Model Viewer Gallery</h1>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav id="desktop-nav">
+          <button onclick="openContent('home')">
+            <span>🏠</span> Home
+          </button>
+          
+          <button onclick="openContent('audio')">
+            <span>🔊</span> Audio
+          </button>
+          
+          <button onclick="openContent('video')">
+            <span>📹</span> Video
+          </button>
+          
+          <button onclick="openContent('images')">
+            <span>🖼️</span> Gallery
+          </button>
+          
+          <button onclick="openContent('articles')">
+            <span>📄</span> Articles
+          </button>
+          
+          <button onclick="openContent('quiz')">
+            <span>📋</span> Quiz
+          </button>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+          <span style="font-size: 1.5rem">☰</span>
+        </button>
       </div>
       
-      <button slot="ar-button" id="ar-button">
-        View in your space
-      </button>
-      
-      <div id="ar-prompt">
-        <img src="../images/ar_hand_prompt.png">
+      <!-- Mobile Navigation -->
+      <div class="mobile-nav" id="mobile-nav">
+        <button onclick="openContent('home')">
+          <span>🏠</span> Home
+        </button>
+        
+        <button onclick="openContent('audio')">
+          <span>🔊</span> Audio
+        </button>
+        
+        <button onclick="openContent('video')">
+          <span>📹</span> Video
+        </button>
+        
+        <button onclick="openContent('images')">
+          <span>🖼️</span> Gallery
+        </button>
+        
+        <button onclick="openContent('articles')">
+          <span>📄</span> Articles
+        </button>
+        
+        <button onclick="openContent('quiz')">
+          <span>📋</span> Quiz
+        </button>
       </div>
-    </model-viewer>
+    </header>
     
-    <script src="script.js"></script>
+    
+    <!-- Main Content -->
+    <main>
+      <div class="model-container">
+        <!-- <model-viewer> HTML element -->
+        <model-viewer src="../models/jerunei_sgmisan.glb"
+          ar ar-modes="webxr scene-viewer quick-look"
+          camera-controls tone-mapping="neutral"
+          poster="../thumbnails/jerunei_sgmisan.png"
+          shadow-intensity="1"
+          camera-orbit="441.1deg 70.76deg 34.05m"
+          field-of-view="30deg"
+          autoplay auto-rotate
+          style="width: auto; height: 100vmin;">
+            
+            <!-- Hotspots -->
+            <button class="Hotspot"
+              slot="hotspot-1"
+              data-position="-1.647m 0.969m -2.018m"
+              data-normal="0m 1.000m -4.768e-7m" 
+              data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Base</div>
+            </button>
+      
+            <button class="Hotspot"
+              slot="hotspot-2"
+              data-position="-4.045m 4.122m -0.085m"
+              data-normal="-1.000m -1.115e-24m 0m"
+              data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Metal Plaque</div>
+            </button>
+      
+            <button class="Hotspot"
+              slot="hotspot-3" 
+              data-position="-0.997m 9.188m 0.0314m"
+              data-normal="-0.995m -9.743e-8m 0.098m"
+              data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Body Replacement Chamber</div>
+            </button>
+      
+            <button class="Hotspot" 
+              slot="hotspot-4" 
+              data-position="-0.997m 6.083m 0.034m"
+              data-normal="-0.995m 4.674e-8m 0.098m"
+              data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Carved Cavity</div>
+            </button>
+      
+            <button class="Hotspot" 
+              slot="hotspot-5" 
+              data-position="-0.368m 12.494m -0.415m" 
+              data-normal="-0.632m -0.083m -0.770m" 
+              data-visibility-attribute="visible">
+              <div class="HotspotAnnotation">Symbolic Iron Wood Jar for King &amp; Nobles</div>
+            </button>
+      
+            <div class="progress-bar hide" slot="progress-bar">
+              <div class="update-bar"></div>
+            </div>
+      
+            <button slot="ar-button" id="ar-button">
+              View in your space
+            </button>
+      
+            <div id="ar-prompt">
+              <img src="../images/ar_hand_prompt.png">
+            </div>
+          </model-viewer>
+        </div>
+      </main>
+      
+      <!-- Modal -->
+      <div class="modal" id="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="modal-title">Content</h2>
+            <button class="close-btn" onclick="closeModal()">
+              <span style="font-size: 1.5rem">✕</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <!-- Content will be inserted here -->
+          </div>
+        </div>
+      </div>
+    <script src="../script.js"></script>
+    <script src="../configs/config-01.js"></script>
     <!-- Loads <model-viewer> for browsers: -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
   </body>
