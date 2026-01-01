@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Model Viewer Gallery</title>
+    <title>Mukah XR Explorer</title>
     <meta charset="utf-8">
     <meta name="description" content="Enhanced Model Viewer">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,28 +12,36 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            height: 100%;
+            overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
             background: #f3f4f6;
-            min-height: 100vh;
         }
 
         /* Header */
         header {
             background: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
+            position: relative;
             z-index: 40;
+            max-height: 20%;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .logo-title {
@@ -79,47 +87,101 @@
             background: #f3f4f6;
         }
 
-        .mobile-menu-btn {
+        /* Mobile dropdown */
+        .mobile-menu-container {
             display: none;
-            padding: 0.5rem;
-            border: none;
-            background: transparent;
+            position: relative;
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            background: white;
             cursor: pointer;
             border-radius: 0.5rem;
+            font-size: 0.95rem;
         }
 
         .mobile-menu-btn:hover {
-            background: #f3f4f6;
+            background: #f9fafb;
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.2s;
+        }
+
+        .dropdown-arrow.open {
+            transform: rotate(180deg);
         }
 
         .mobile-nav {
             display: none;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-width: 200px;
+            z-index: 50;
         }
 
         .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav button {
+            width: 100%;
             display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: none;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .mobile-nav button:hover {
+            background: #f3f4f6;
+        }
+
+        .mobile-nav button:first-child {
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .mobile-nav button:last-child {
+            border-radius: 0 0 0.5rem 0.5rem;
         }
 
         /* Main Content */
         main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            flex: 1;
+            overflow: hidden;
+            padding: 10px;
         }
 
         .model-container {
             background: white;
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 2rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
         model-viewer {
             width: 100%;
-            height: 500px;
+            height: 100%;
         }
 
         /* Modal */
@@ -128,7 +190,7 @@
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.5);
-            z-index: 50;
+            z-index: 100;
             align-items: center;
             justify-content: center;
             padding: 1rem;
@@ -157,6 +219,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 10;
         }
 
         .modal-header h2 {
@@ -326,16 +389,21 @@
                 font-size: 1.25rem;
             }
 
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
             nav {
                 display: none;
             }
 
-            .mobile-menu-btn {
+            .mobile-menu-container {
                 display: block;
             }
 
-            model-viewer {
-                height: 300px;
+            main {
+                padding: 3px;
             }
 
             .gallery-grid {
@@ -349,8 +417,8 @@
     <header>
         <div class="header-container">
             <div class="logo-title">
-                <img src="https://via.placeholder.com/100x100" alt="Logo" class="logo" id="logo">
-                <h1 class="title" id="title">Model Viewer Gallery</h1>
+                <img src="../images/logo.png" alt="Logo" class="logo" id="logo">
+                <h1 class="title" id="title">Mukah XR Explorer</h1>
             </div>
             
             <!-- Desktop Navigation -->
@@ -375,32 +443,34 @@
                 </button>
             </nav>
 
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <span style="font-size: 1.5rem">☰</span>
-            </button>
-        </div>
-
-        <!-- Mobile Navigation -->
-        <div class="mobile-nav" id="mobile-nav">
-            <button onclick="openContent('home')">
-                <span>🏠</span> Home
-            </button>
-            <button onclick="openContent('audio')">
-                <span>🔊</span> Audio
-            </button>
-            <button onclick="openContent('video')">
-                <span>📹</span> Video
-            </button>
-            <button onclick="openContent('images')">
-                <span>🖼️</span> Gallery
-            </button>
-            <button onclick="openContent('articles')">
-                <span>📄</span> Articles
-            </button>
-            <button onclick="openContent('quiz')">
-                <span>📋</span> Quiz
-            </button>
+            <!-- Mobile Dropdown Menu -->
+            <div class="mobile-menu-container">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span>Menu</span>
+                    <span class="dropdown-arrow" id="dropdown-arrow">▼</span>
+                </button>
+                
+                <div class="mobile-nav" id="mobile-nav">
+                    <button onclick="openContent('home')">
+                        <span>🏠</span> Home
+                    </button>
+                    <button onclick="openContent('audio')">
+                        <span>🔊</span> Audio
+                    </button>
+                    <button onclick="openContent('video')">
+                        <span>📹</span> Video
+                    </button>
+                    <button onclick="openContent('images')">
+                        <span>🖼️</span> Gallery
+                    </button>
+                    <button onclick="openContent('articles')">
+                        <span>📄</span> Articles
+                    </button>
+                    <button onclick="openContent('quiz')">
+                        <span>📋</span> Quiz
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -408,12 +478,83 @@
     <main>
         <div class="model-container">
             <model-viewer 
-                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+                src="../models/jerunei_sgmisan.glb"
+                ar ar-modes="webxr scene-viewer quick-look"
+                camera-controls tone-mapping="neutral"
                 alt="3D Model"
-                poster="https://modelviewer.dev/shared-assets/models/Astronaut.webp"
+                poster="../thumbnails/jerunei_sgmisan.png"
                 camera-controls
-                auto-rotate
-                shadow-intensity="1">
+                shadow-intensity="1"
+                camera-orbit="441.1deg 70.76deg 34.05m"
+                field-of-view="30deg"
+                autoplay auto-rotate>
+            <!-- Hotspots -->
+                <button
+                    class="Hotspot"
+                    slot="hotspot-1"
+                    data-position="-1.647m 0.969m -2.018m"
+                    data-normal="0m 1.000m -4.768e-7m"
+                    data-visibility-attribute="visible">                        
+                    <div class="HotspotAnnotation">
+                        Base
+                    </div>
+                </button>
+            
+                <button 
+                    class="Hotspot"
+                    slot="hotspot-2"
+                    data-position="-4.045m 4.122m -0.085m"
+                    data-normal="-1.000m -1.115e-24m 0m"
+                    data-visibility-attribute="visible">
+                    <div class="HotspotAnnotation">
+                        Metal Plaque
+                    </div>
+                </button>
+            
+                <button
+                    class="Hotspot"
+                    slot="hotspot-3" 
+                    data-position="-0.997m 9.188m 0.0314m"
+                    data-normal="-0.995m -9.743e-8m 0.098m"
+                    data-visibility-attribute="visible">
+                    <div class="HotspotAnnotation">
+                        Body Replacement Chamber
+                    </div>
+                </button>
+            
+                <button
+                    class="Hotspot" 
+                    slot="hotspot-4" 
+                    data-position="-0.997m 6.083m 0.034m"
+                    data-normal="-0.995m 4.674e-8m 0.098m"
+                    data-visibility-attribute="visible">
+                    <div class="HotspotAnnotation">
+                        Carved Cavity
+                    </div>
+                </button>
+            
+                <button
+                    class="Hotspot" 
+                    slot="hotspot-5" 
+                    data-position="-0.368m 12.494m -0.415m" 
+                    data-normal="-0.632m -0.083m -0.770m" 
+                    data-visibility-attribute="visible">
+                    <div class="HotspotAnnotation">
+                        Symbolic Iron Wood Jar for King &amp; Nobles
+                    </div>
+                </button>
+
+                <div class="progress-bar hide" slot="progress-bar">
+                    <div class="update-bar"></div>
+                </div>
+            
+                <button slot="ar-button" id="ar-button">
+                    View in your space
+                </button>
+            
+                <div id="ar-prompt">
+                    <img src="../images/ar_hand_prompt.png">
+                </div>                
             </model-viewer>
         </div>
     </main>
@@ -437,7 +578,7 @@
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
     
     <!-- External script -->
-    <script src="../config.js"></script>
-    <script src="../script.js"></script>
+    <script src="../con01.js"></script>
+    <script src="../script2.js"></script>
 </body>
 </html>
