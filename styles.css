@@ -6,17 +6,15 @@
   box-sizing: border-box;
 }
 
-html {
+html, body {
   height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  /*added*/
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  display: flex;
+  flex-direction: column;
   background: #f3f4f6;
 }
 
@@ -24,17 +22,21 @@ body {
 header {
     background: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 40;
+    max-height: 20%;
+    flex-shrink: 0;
+    display: flex;
+    top: 0;
+    flex-direction: column;
 }
+
 .header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 10px 20px;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .logo-title {
@@ -44,8 +46,8 @@ header {
 }
 
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 4px;
@@ -55,7 +57,7 @@ header {
     font-size: 1.5rem;
     font-weight: bold;
     color: #333;
-    margin: 0;
+    /* margin: 0; */
 }
 
 /* Navigation */
@@ -81,49 +83,106 @@ nav button:hover {
     background: #f0f0f0;
 }
 
-.mobile-menu-btn {
+/* mobile dropdown menu */
+.mobile-menu-container {
     display: none;
-    padding: 0.5rem;
-    border: none;
+    position: relative;
+}
+
+.mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
     background: transparent;
     cursor: pointer;
     border-radius: 0.5rem;
+    font-size: 0.95rem;
 }
 
 .mobile-menu-btn:hover {
     background: #f0f0f0;
 }
 
+.dropdown-arrow {
+    transition: transform 0.2s;
+}
+
+.dropdown-arrow.open {
+    transform: rotate(180deg);
+}
+
 .mobile-nav {
     display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
     flex-direction: column;
     gap: 0.5rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    min-width: 400px;
+    z-index: 50;
 }
 
 .mobile-nav.active {
     display: flex;
 }
 
+.mobile-nav button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 0.95rem;
+}
+
+.mobile-nav button:hover {
+    background: #f3f4f6;
+}
+
+.mobile-nav button:first-child {
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.mobile-nav button:last-child {
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
 /* Main Content */
 main {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    flex: 1;
+    overflow: hidden;
+    padding: 10px;
 }
 
 .model-container {
     background: rgb(0, 0, 0);
     border-radius: 0.0rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    padding: 0.2rem;
+    height: 100%;
+    /*display: flex;*/
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0.3rem;
 }
 
 model-viewer {
   width: 100%;
-  height: 90%;
+  height: 100%;
   background-color: #ffffff;
-  border-radius: 40px;
+  border-radius: 0px;
 }
 
 .Hotspot {
@@ -312,6 +371,7 @@ model-viewer > #ar-prompt > img {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 10;
 }
 
 .modal-header h2 {
@@ -479,6 +539,11 @@ audio, video {
 @media (max-width: 768px) {
     .title {
         font-size: 1.25rem;
+    }
+    
+    .logo {
+        width: 40px;
+        height: 40px;
     }
     
     nav {
