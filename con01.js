@@ -4,12 +4,12 @@ const CONFIG = {
     logo: '../images/logo.png',
     title: 'Mukah XR Explorer',
     
-    // 3D Model settings
+    /*// 3D Model settings
     model: {
         src: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
         alt: '3D Model',
         poster: 'https://modelviewer.dev/shared-assets/models/Astronaut.webp'
-    },
+    },*/
     
     // Content sections
     content: {

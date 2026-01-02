@@ -1,586 +1,170 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Mukah XR Explorer</title>
-    <meta charset="utf-8">
-    <meta name="description" content="Enhanced Model Viewer">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../styles-hotspot.css">
-    <link rel="stylesheet" href="../styles-main.css"><!--
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            background: #f3f4f6;
-        }
-
-        /* Header */
-        header {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 40;
-            max-height: 20%;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header-container {
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .logo-title {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo {
-            width: 48px;
-            height: 48px;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #1f2937;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        nav button {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border: none;
-            background: transparent;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 0.95rem;
-        }
-
-        nav button:hover {
-            background: #f3f4f6;
-        }
-
-        /* Mobile dropdown */
-        .mobile-menu-container {
-            display: none;
-            position: relative;
-        }
-
-        .mobile-menu-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border: 1px solid #d1d5db;
-            background: white;
-            cursor: pointer;
-            border-radius: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .mobile-menu-btn:hover {
-            background: #f9fafb;
-        }
-
-        .dropdown-arrow {
-            transition: transform 0.2s;
-        }
-
-        .dropdown-arrow.open {
-            transform: rotate(180deg);
-        }
-
-        .mobile-nav {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 0.5rem;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            min-width: 200px;
-            z-index: 50;
-        }
-
-        .mobile-nav.active {
-            display: block;
-        }
-
-        .mobile-nav button {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1rem;
-            border: none;
-            background: transparent;
-            text-align: left;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 0.95rem;
-        }
-
-        .mobile-nav button:hover {
-            background: #f3f4f6;
-        }
-
-        .mobile-nav button:first-child {
-            border-radius: 0.5rem 0.5rem 0 0;
-        }
-
-        .mobile-nav button:last-child {
-            border-radius: 0 0 0.5rem 0.5rem;
-        }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            overflow: hidden;
-            padding: 10px;
-        }
-
-        .model-container {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 20px 25px rgba(0,0,0,0.15);
-            max-width: 900px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            position: sticky;
-            top: 0;
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .modal-header h2 {
-            font-size: 1.25rem;
-            font-weight: bold;
-        }
-
-        .close-btn {
-            padding: 0.5rem;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-
-        .close-btn:hover {
-            background: #f3f4f6;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        /* Error 404 */
-        .error-404 {
-            text-align: center;
-            padding: 3rem 0;
-        }
-
-        .error-404 h2 {
-            font-size: 4rem;
-            color: #ef4444;
-            margin-bottom: 1rem;
-        }
-
-        .error-404 p {
-            font-size: 1.25rem;
-            color: #374151;
-        }
-
-        /* Content Sections */
-        .content-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .content-item {
-            background: #f9fafb;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .content-item h3 {
-            margin-bottom: 0.5rem;
-        }
-
-        audio, video {
-            width: 100%;
-            border-radius: 0.5rem;
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 0.5rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            border-radius: 0.5rem;
-        }
-
-        .gallery-item p {
-            text-align: center;
-            margin-top: 0.5rem;
-            font-weight: 600;
-        }
-
-        /* Quiz */
-        .quiz-question {
-            background: #f9fafb;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .quiz-question p {
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-
-        .quiz-option {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            margin-bottom: 0.5rem;
-        }
-
-        .quiz-option:hover {
-            background: #f3f4f6;
-        }
-
-        .quiz-option input {
-            margin-right: 0.75rem;
-        }
-
-        .quiz-option.correct {
-            background: #d1fae5;
-        }
-
-        .quiz-option.incorrect {
-            background: #fee2e2;
-        }
-
-        .quiz-option.selected {
-            background: #dbeafe;
-        }
-
-        .quiz-submit {
-            width: 100%;
-            padding: 0.75rem;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .quiz-submit:hover {
-            background: #2563eb;
-        }
-
-        .quiz-score {
-            background: #d1fae5;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            font-size: 1.125rem;
-            font-weight: 600;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 1.25rem;
-            }
-
-            .logo {
-                width: 40px;
-                height: 40px;
-            }
-
-            nav {
-                display: none;
-            }
-
-            .mobile-menu-container {
-                display: block;
-            }
-
-            main {
-                padding: 3px;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>-->
-</head>
-<body>
+    <meta charset="utf-8" />
+    <meta name="description" content="Enhanced Model Viewer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../styles-hotspot.css" />
+    <link rel="stylesheet" href="../styles-main.css" />
+  </head>
+  <body>
     <!-- Header -->
     <header>
-        <div class="header-container">
-            <div class="logo-title">
-                <img src="../images/logo.png" alt="Logo" class="logo" id="logo">
-                <h1 class="title" id="title">Mukah XR Explorer</h1>
-            </div>
-            
-            <!-- Desktop Navigation -->
-            <nav id="desktop-nav">
-                <button onclick="openContent('home')">
-                    <span>🏠</span> Home
-                </button>
-                <button onclick="openContent('audio')">
-                    <span>🔊</span> Audio
-                </button>
-                <button onclick="openContent('video')">
-                    <span>📹</span> Video
-                </button>
-                <button onclick="openContent('images')">
-                    <span>🖼️</span> Gallery
-                </button>
-                <button onclick="openContent('articles')">
-                    <span>📄</span> Articles
-                </button>
-                <button onclick="openContent('quiz')">
-                    <span>📋</span> Quiz
-                </button>
-            </nav>
-
-            <!-- Mobile Dropdown Menu -->
-            <div class="mobile-menu-container">
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <span>Menu</span>
-                    <span class="dropdown-arrow" id="dropdown-arrow">▼</span>
-                </button>
-                
-                <div class="mobile-nav" id="mobile-nav">
-                    <button onclick="openContent('home')">
-                        <span>🏠</span> Home
-                    </button>
-                    <button onclick="openContent('audio')">
-                        <span>🔊</span> Audio
-                    </button>
-                    <button onclick="openContent('video')">
-                        <span>📹</span> Video
-                    </button>
-                    <button onclick="openContent('images')">
-                        <span>🖼️</span> Gallery
-                    </button>
-                    <button onclick="openContent('articles')">
-                        <span>📄</span> Articles
-                    </button>
-                    <button onclick="openContent('quiz')">
-                        <span>📋</span> Quiz
-                    </button>
-                </div>
-            </div>
+      <div class="header-container">
+        <div class="logo-title">
+          <img src="../images/logo.png" alt="Logo" class="logo" id="logo" />
+          <h1 class="title" id="title">Mukah XR Explorer</h1>
         </div>
+
+        <!-- Desktop Navigation -->
+        <nav id="desktop-nav">
+          <button onclick="openContent('home')"><span>🏠</span> Home</button>
+          <button onclick="openContent('audio')"><span>🔊</span> Audio</button>
+          <button onclick="openContent('video')"><span>📹</span> Video</button>
+          <button onclick="openContent('images')">
+            <span>🖼️</span> Gallery
+          </button>
+          <button onclick="openContent('articles')">
+            <span>📄</span> Articles
+          </button>
+          <button onclick="openContent('quiz')"><span>📋</span> Quiz</button>
+        </nav>
+
+        <!-- Mobile Dropdown Menu -->
+        <div class="mobile-menu-container">
+          <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <span>Menu</span>
+            <span class="dropdown-arrow" id="dropdown-arrow">▼</span>
+          </button>
+
+          <div class="mobile-nav" id="mobile-nav">
+            <button onclick="openContent('home')"><span>🏠</span> Home</button>
+            <button onclick="openContent('audio')">
+              <span>🔊</span> Audio
+            </button>
+            <button onclick="openContent('video')">
+              <span>📹</span> Video
+            </button>
+            <button onclick="openContent('images')">
+              <span>🖼️</span> Gallery
+            </button>
+            <button onclick="openContent('articles')">
+              <span>📄</span> Articles
+            </button>
+            <button onclick="openContent('quiz')"><span>📋</span> Quiz</button>
+          </div>
+        </div>
+      </div>
     </header>
 
     <!-- Main Content -->
     <main>
-        <div class="model-container">
-            <model-viewer 
-                src="../models/jerunei_sgmisan.glb"
-                ar ar-modes="webxr scene-viewer quick-look"
-                camera-controls tone-mapping="neutral"
-                alt="3D Model"
-                poster="../images/tb_jeruneisgmisan.png"
-                camera-controls
-                shadow-intensity="1"
-                camera-orbit="441.1deg 70.76deg 34.05m"
-                field-of-view="30deg"
-                autoplay auto-rotate>
-            <!-- Hotspots -->
-                <button
-                    class="Hotspot"
-                    slot="hotspot-1"
-                    data-position="-1.647m 0.969m -2.018m"
-                    data-normal="0m 1.000m -4.768e-7m"
-                    data-visibility-attribute="visible">                        
-                    <div class="HotspotAnnotation">
-                        Base
-                    </div>
-                </button>
-            
-                <button 
-                    class="Hotspot"
-                    slot="hotspot-2"
-                    data-position="-4.045m 4.122m -0.085m"
-                    data-normal="-1.000m -1.115e-24m 0m"
-                    data-visibility-attribute="visible">
-                    <div class="HotspotAnnotation">
-                        Metal Plaque
-                    </div>
-                </button>
-            
-                <button
-                    class="Hotspot"
-                    slot="hotspot-3" 
-                    data-position="-0.997m 9.188m 0.0314m"
-                    data-normal="-0.995m -9.743e-8m 0.098m"
-                    data-visibility-attribute="visible">
-                    <div class="HotspotAnnotation">
-                        Body Replacement Chamber
-                    </div>
-                </button>
-            
-                <button
-                    class="Hotspot" 
-                    slot="hotspot-4" 
-                    data-position="-0.997m 6.083m 0.034m"
-                    data-normal="-0.995m 4.674e-8m 0.098m"
-                    data-visibility-attribute="visible">
-                    <div class="HotspotAnnotation">
-                        Carved Cavity
-                    </div>
-                </button>
-            
-                <button
-                    class="Hotspot" 
-                    slot="hotspot-5" 
-                    data-position="-0.368m 12.494m -0.415m" 
-                    data-normal="-0.632m -0.083m -0.770m" 
-                    data-visibility-attribute="visible">
-                    <div class="HotspotAnnotation">
-                        Symbolic Iron Wood Jar for King &amp; Nobles
-                    </div>
-                </button>
+      <div class="model-container">
+        <model-viewer
+          src="../models/jerunei_sgmisan.glb"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          tone-mapping="neutral"
+          alt="3D Model"
+          poster="../images/tb_jeruneisgmisan.png"
+          camera-controls
+          shadow-intensity="1"
+          camera-orbit="441.1deg 70.76deg 34.05m"
+          field-of-view="30deg"
+          autoplay
+          auto-rotate
+        >
+          <!-- Hotspots -->
+          <button
+            class="Hotspot"
+            slot="hotspot-1"
+            data-position="-1.647m 0.969m -2.018m"
+            data-normal="0m 1.000m -4.768e-7m"
+            data-visibility-attribute="visible"
+          >
+            <div class="HotspotAnnotation">Base</div>
+          </button>
 
-                <div class="progress-bar hide" slot="progress-bar">
-                    <div class="update-bar"></div>
-                </div>
-            
-                <button slot="ar-button" id="ar-button">
-                    View in your space
-                </button>
-            
-                <div id="ar-prompt">
-                    <img src="../images/ar_hand_prompt.png">
-                </div>                
-            </model-viewer>
-        </div>
+          <button
+            class="Hotspot"
+            slot="hotspot-2"
+            data-position="-4.045m 4.122m -0.085m"
+            data-normal="-1.000m -1.115e-24m 0m"
+            data-visibility-attribute="visible"
+          >
+            <div class="HotspotAnnotation">Metal Plaque</div>
+          </button>
+
+          <button
+            class="Hotspot"
+            slot="hotspot-3"
+            data-position="-0.997m 9.188m 0.0314m"
+            data-normal="-0.995m -9.743e-8m 0.098m"
+            data-visibility-attribute="visible"
+          >
+            <div class="HotspotAnnotation">Body Replacement Chamber</div>
+          </button>
+
+          <button
+            class="Hotspot"
+            slot="hotspot-4"
+            data-position="-0.997m 6.083m 0.034m"
+            data-normal="-0.995m 4.674e-8m 0.098m"
+            data-visibility-attribute="visible"
+          >
+            <div class="HotspotAnnotation">Carved Cavity</div>
+          </button>
+
+          <button
+            class="Hotspot"
+            slot="hotspot-5"
+            data-position="-0.368m 12.494m -0.415m"
+            data-normal="-0.632m -0.083m -0.770m"
+            data-visibility-attribute="visible"
+          >
+            <div class="HotspotAnnotation">
+              Symbolic Iron Wood Jar for King &amp; Nobles
+            </div>
+          </button>
+
+          <div class="progress-bar hide" slot="progress-bar">
+            <div class="update-bar"></div>
+          </div>
+
+          <button slot="ar-button" id="ar-button">View in your space</button>
+
+          <div id="ar-prompt">
+            <img src="../images/ar_hand_prompt.png" />
+          </div>
+        </model-viewer>
+      </div>
     </main>
 
     <!-- Modal -->
     <div class="modal" id="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title">Content</h2>
-                <button class="close-btn" onclick="closeModal()">
-                    <span style="font-size: 1.5rem">✕</span>
-                </button>
-            </div>
-            <div class="modal-body" id="modal-body">
-                <!-- Content will be inserted here -->
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Content</h2>
+          <button class="close-btn" onclick="closeModal()">
+            <span style="font-size: 1.5rem">✕</span>
+          </button>
         </div>
+        <div class="modal-body" id="modal-body">
+          <!-- Content will be inserted here -->
+        </div>
+      </div>
     </div>
 
     <!-- Loads model-viewer -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
-    
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
+
     <!-- External script -->
     <script src="../con01.js"></script>
     <script src="../script2.js"></script>
-</body>
+  </body>
 </html>
