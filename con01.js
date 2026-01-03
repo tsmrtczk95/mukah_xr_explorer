@@ -2,7 +2,7 @@
 const CONFIG = {
     // Site settings
     logo: '../images/logo.png',
-    title: 'Mukah XR Explorer',
+    title: 'Mukah Explorer',
     
     /*// 3D Model settings
     model: {
